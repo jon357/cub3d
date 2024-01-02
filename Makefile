@@ -4,7 +4,8 @@ SRC		= 	main.c				\
 			ft_utils_gnl.c		\
 			ft_utils_split.c	\
 			ft_utils_str_1.c	\
-			ft_key.c				\
+			ft_key.c			\
+			ft_utils_convert.c			\
 
 OBJ		= $(SRC:.c=.o)
 

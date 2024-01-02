@@ -94,4 +94,7 @@ int		*kill_prog(t_structure_main *w);
 void	move(int key, t_structure_main *w);
 int		deal_key(int key, t_structure_main *w);
 
+//ft_utils_convert.c 1/5
+char	*ft_itoa(int nb);
+
 #endif

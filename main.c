@@ -96,6 +96,11 @@ void draw_line(t_structure_main *w, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
+float dist(float ax, float ay, float bx, float by)
+{
+	return ( sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay)));
+}
+
 void rescale_image(void *mlx, void *win, void *original_img, int original_width, int original_height, int new_width, int new_height, int px, int py, t_structure_main *w)
 {
 	// Créez une nouvelle image avec la taille souhaitée
@@ -135,7 +140,7 @@ void rescale_image(void *mlx, void *win, void *original_img, int original_width,
 	}
 
 	// Affichez la nouvelle image
-	mlx_put_image_to_window(w->s_win.mlx, w->s_win.win, rescaled_img, px,py); // complétez les arguments selon vos besoins
+	mlx_put_image_to_window(w->s_win.mlx, w->s_win.win, rescaled_img, px,py);
 
 	// Libérez la mémoire de la nouvelle image (si vous n'en avez plus besoin)
 	mlx_destroy_image(w->s_win.mlx, rescaled_img);
@@ -145,7 +150,9 @@ void rescale_image(void *mlx, void *win, void *original_img, int original_width,
 
 void drawRays2D(t_structure_main *w) {
 	int r, mx, my, mp, dof;
-	float rx, ry, ra, xo, yo, aTan, nTan;
+	float hrx, hry, ra, xo, yo, aTan, nTan;
+	float vrx, vry;
+	float	disH = 1000000, disV = 1000000;
 
 	ra = w->s_player.pa - DR * 30;
 	r = 0;
@@ -160,74 +167,79 @@ void drawRays2D(t_structure_main *w) {
 		//printf("Rayon %d: angle initial = %f\n", r, ra);  // Log de début de rayon
 
 		if (ra > PI) {
-			ry = (((int)w->s_player.py >> 6) << 6) - 0.0001;
-			rx = (w->s_player.py - ry) * aTan + w->s_player.px;
+			hry = (((int)w->s_player.py >> 6) << 6) - 0.0001;
+			hrx = (w->s_player.py - hry) * aTan + w->s_player.px;
 			yo = -64;
 			xo = -yo * aTan;
 		}
 		if (ra < PI) {
-			ry = (((int)w->s_player.py >> 6) << 6) + 64;
-			rx = (w->s_player.py - ry) * aTan + w->s_player.px;
+			hry = (((int)w->s_player.py >> 6) << 6) + 64;
+			hrx = (w->s_player.py - hry) * aTan + w->s_player.px;
 			yo = 64;
 			xo = -yo * aTan;
 		}
 		if (ra == 0 || ra == PI) {
-			rx = w->s_player.px;
-			ry = w->s_player.py;
+			hrx = w->s_player.px;
+			hry = w->s_player.py;
 			dof = 8;
 		}
 		while (dof < 8) {
-			mx = (int)(rx) >> 6;
-			my = (int)(ry) >> 6;
+			mx = (int)(hrx) >> 6;
+			my = (int)(hry) >> 6;
 			mp = my * w->s_map.mapX + mx;
 			//if (mp < 0)
 			//	mp = 0;
-			printf("Vérification de la collision horizontale: rx = %f, ry = %f, mx = %d, my = %d, mp = %d\n", rx, ry, mx, my, mp);  // Log de la collision
-			if (mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {
+			//printf("Vérification de la collision horizontale: hrx = %f, hry = %f, mx = %d, my = %d, mp = %d\n", hrx, hry, mx, my, mp);  // Log de la collision
+			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {
 				dof = 8;
-				//printf("Mur touché horizontalement à rx = %f, ry = %f\n", rx, ry);  // Log du mur touché
+				disH = dist(w->s_player.px,w->s_player.py,hrx, hry);
+				//printf("Mur touché horizontalement à hrx = %f, hry = %f\n", hrx, hry);  // Log du mur touché
 			} else {
-				rx += xo;
-				ry += yo;
+				hrx += xo;
+				hry += yo;
 				dof += 1;
 			}
 		}
-		draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)rx, (int)ry, 0xFF0000);
+		//draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)rx, (int)ry, 0xFF0000);
 
 		dof = 0;
 		float nTan = -tan(ra); // Notez le signe négatif, qui est nécessaire pour certains quadrants.
 		if (ra > P2 && ra < P3) {
-			rx = (((int)w->s_player.px >> 6) << 6) - 0.0001; // Déplacez rx à gauche
-			ry = (w->s_player.px - rx) * nTan + w->s_player.py;
+			vrx = (((int)w->s_player.px >> 6) << 6) - 0.0001; // Déplacez vrx à gauche
+			vry = (w->s_player.px - vrx) * nTan + w->s_player.py;
 			xo = -64;
 			yo = -xo * nTan;
 		} else if (ra < P2 || ra > P3) {
-			rx = (((int)w->s_player.px >> 6) << 6) + 64; // Déplacez rx à droite
-			ry = (w->s_player.px - rx) * nTan + w->s_player.py;
+			vrx = (((int)w->s_player.px >> 6) << 6) + 64; // Déplacez vrx à droite
+			vry = (w->s_player.px - vrx) * nTan + w->s_player.py;
 			xo = 64;
 			yo = -xo * nTan;
 		}
 		if (ra == 0 || ra == PI) { // Cas spécial pour les angles exacts
-			rx = w->s_player.px;
-			ry = w->s_player.py;
+			vrx = w->s_player.px;
+			vry = w->s_player.py;
 			dof = 8;
 		}
 		while (dof < 8)
 		{
-			mx = (int)(rx) >> 6;
-			my = (int)(ry) >> 6;
+			mx = (int)(vrx) >> 6;
+			my = (int)(vry) >> 6;
 			mp = my * w->s_map.mapX + mx;
-			//printf("Vérification de la collision verticale: rx = %f, ry = %f, mx = %d, my = %d, mp = %d\n", rx, ry, mx, my, mp);  // Log de la collision
-			if (mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {
+			//printf("Vérification de la collision verticale: vrx = %f, vry = %f, mx = %d, my = %d, mp = %d\n", vrx, vry, mx, my, mp);  // Log de la collision
+			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {
 				dof = 8;
-				//printf("Mur touché verticalement à rx = %f, ry = %f\n", rx, ry);  // Log du mur touché
+				disV = dist(w->s_player.px,w->s_player.py,vrx, vry);
+				//printf("Mur touché verticalement à vrx = %f, vry = %f\n", vrx, vry);  // Log du mur touché
 			} else {
-				rx += xo;
-				ry += yo;
+				vrx += xo;
+				vry += yo;
 				dof += 1;
 			}
 		}
-		draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)rx, (int)ry, 0x00FF00);
+		if (disH > disV)
+			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)vrx, (int)vry, 0x00FF00);
+		else
+			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)hrx, (int)hry, 0xFF0000);
 
 		r++;
 		ra += DR;
@@ -254,12 +266,12 @@ void	draw_map(t_structure_main *w)
 		while ( x < 8)
 		{
 			if (map[y*8+x] == 1)
-				color = 0x888888;
+				color = 0xFFFFFF;
 			else
-				color = 0x000000;
-			xo = x * w->s_map.mapS+w->s_map.mapS;
-			yo = y * w->s_map.mapS+w->s_map.mapS;
-			draw_square(w, x, y, xo, yo, color);
+				color = 0x666666;
+			xo = x + w->s_map.mapS;
+			yo = y + w->s_map.mapS;
+			draw_square(w, x, y, xo-1, yo-1, color);
 			x++;
 		}
 		y++;
@@ -268,45 +280,41 @@ void	draw_map(t_structure_main *w)
 
 int jkl = 0;
 int yui = 0;
-void test(t_structure_main *w)
-{
-	int	x;
-	int y;
 
-	//////////gettimeofday(&(w->start_time), NULL);
+void test2(t_structure_main *w)
+{
+
 	mlx_destroy_image(w->s_win.mlx, w->s_img.buffer);
 	w->s_img.buffer = mlx_new_image(w->s_win.mlx, w->s_win.height, w->s_win.width);
 	w->s_img.addr = mlx_get_data_addr(w->s_img.buffer, &(w->s_img.bpp), &(w->s_img.line_len), &(w->s_img.endian));
 	draw_map(w);
 	//draw_square_raw(w, w->s_player.px-5, w->s_player.py-5, 10, 0xffff00);
 	drawRays2D(w);
-	/*
-	float j;
-	j = -0.5;
-	while (j < 0.5)
+	mlx_put_image_to_window(w->s_win.mlx,w->s_win.win, w->s_img.buffer,0, 0);
+
+	rescale_image(w->s_win.mlx,w->s_win.win,w->s_img.roomadslam[jkl],112,112,20,20,w->s_player.px-10, w->s_player.py-10,w);
+
+}
+
+void test(t_structure_main *w)
+{
+	int	x;
+	int y;
+
+	//////////gettimeofday(&(w->start_time), NULL);
+	if (yui < 10)
 	{
-		float end_x = w->s_player.px + 40 * cos(w->s_player.pa + j);
-		float end_y = w->s_player.py + 40 * sin(w->s_player.pa + j);
-		for (float i = 0; i <= 20.0; i += 0.01) {
-			float current_x = w->s_player.px + i * (end_x - w->s_player.px);
-			float current_y = w->s_player.py + i * (end_y - w->s_player.py);
-			put_pixel_img(w, current_x, current_y, 0x00ff00);
-		}
-		j = j + 0.01;
-	}
-	*/
-	if (yui < 1)
+		usleep(1000);
 		yui++;
+	}
 	else
 	{
 		yui = 0;
 		jkl++;
+		test2(w);
 	}
 	if (jkl == 10)
 		jkl = 0;
-	mlx_put_image_to_window(w->s_win.mlx,w->s_win.win, w->s_img.buffer,0, 0);
-
-	rescale_image(w->s_win.mlx,w->s_win.win,w->s_img.roomadslam[jkl],112,112,20,20,w->s_player.px-10, w->s_player.py-10,w);
 	//mlx_put_image_to_window(w->s_win.mlx,w->s_win.win, w->s_img.roomadslam[jkl],0, 0);
 
 
