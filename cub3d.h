@@ -14,6 +14,11 @@
 #  define BUFFER_SIZE 1000
 # endif
 
+# define PI 3.1415926535
+# define P2 PI/2
+# define P3 3*PI/2
+# define DR 0.0174533
+
 typedef struct s_struture_map
 {
 	char	**map;
@@ -22,8 +27,9 @@ typedef struct s_struture_map
 	int		i;
 	int		j;
 	int		temp;
-	int		sizex;
-	int		sizey;
+	int		mapX;
+	int		mapY;
+	int		mapS;
 }	t_structure_map;
 
 typedef struct s_struture_player
@@ -33,7 +39,6 @@ typedef struct s_struture_player
 	float	pdx;
 	float	pdy;
 	float	pa;
-	float	rp;
 }	t_structure_player;
 
 typedef struct s_struture_img
@@ -45,6 +50,9 @@ typedef struct s_struture_img
 	int		bpp;
 	int		endian;
 	int		line_len;
+	void	*test[27];
+	void	*roomadslam[10];
+	void	*tgsway[20];
 }	t_structure_img;
 
 typedef struct s_struture_windows
@@ -80,5 +88,10 @@ size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char *left_str, char *buff);
 char	*ft_strchr(const char *s, int c);
+
+//ft_key.c 3/5
+int		*kill_prog(t_structure_main *w);
+void	move(int key, t_structure_main *w);
+int		deal_key(int key, t_structure_main *w);
 
 #endif
