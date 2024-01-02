@@ -151,7 +151,7 @@ void rescale_image(void *mlx, void *win, void *original_img, int original_width,
 void drawRays2D(t_structure_main *w) {
 	int r, mx, my, mp, dof;
 	float hrx, hry, ra, xo, yo, aTan, nTan;
-	float vrx, vry;
+	float vrx, vry, disT;
 	float	disH = 1000000, disV = 1000000;
 
 	ra = w->s_player.pa - DR * 30;
@@ -237,9 +237,27 @@ void drawRays2D(t_structure_main *w) {
 			}
 		}
 		if (disH > disV)
+		{
+			disT = disV;
 			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)vrx, (int)vry, 0x00FF00);
+		}
 		else
+		{
+			disT = disH;
 			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)hrx, (int)hry, 0xFF0000);
+		}
+
+		float ca = w->s_player.pa-ra;
+		if (ca<0)
+			ca+=2*PI;
+		if (ca>2*PI)
+			ca-=2*PI;
+		disT=disT*cos(ca);
+		float lineH = (w->s_map.mapS*320)/disT;
+		float lineO = 160-lineH/2;	
+		if (lineH>320)
+			lineH=320;
+		draw_line(w, r*8+530, lineO, r*8+530, lineH+lineO, 0x0000FF);
 
 		r++;
 		ra += DR;
