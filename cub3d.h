@@ -21,7 +21,7 @@
 
 typedef struct s_struture_map
 {
-	char	**map;
+	char	*map;
 	char	*buff;
 	char	**temp_list;
 	int		i;

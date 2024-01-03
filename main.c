@@ -1,15 +1,15 @@
 #include "cub3d.h"
 
-int map[] = 
+char map[] = 
 {
-	1, 1, 1, 1, 1, 1, 1, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 1, 0, 1,
-	1, 0, 1, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 1, 1, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 9, 0, 1,
-	1, 1, 1, 1, 1, 1, 1, 1,
+	'1', '1', '1', '1', '1', '1', '1', '1',
+	'1', '0', '0', '0', '0', '0', '0', '1',
+	'1', '0', '0', '0', '0', '1', '0', '1',
+	'1', '0', '1', '0', '0', '0', '0', '1',
+	'1', '0', '0', '0', '0', '1', '1', '1',
+	'1', '0', '0', '0', '0', '0', '0', '1',
+	'1', '0', '0', '0', '0', 'N', '0', '1',
+	'1', '1', '1', '1', '1', '1', '1', '1',
 };
 
 void	put_pixel_img(t_structure_main *w,int x, int y, int color)
@@ -148,12 +148,12 @@ void drawRays2D(t_structure_main *w) {
 	int r, mx, my, mp, dof, color;
 	float rx, ry, ra, xo, yo, disT;
 
-	draw_square_raw(w, 530, 0, 530+480, 160, 0xB2FFFF);
-	draw_square_raw(w, 530, 160, 530+480, 320, 0x280000);
+	draw_square_raw(w, 530, 0, 538+480, 160, 0xB2FFFF);
+	draw_square_raw(w, 530, 160, 538+480, 320, 0x280000);
 
 	ra = w->s_player.pa - DR * 30;
 	r = 0;
-	while (r < 60)
+	while (r <= 60)
 	{
 		if (ra < 0) { ra += 2 * PI; }
 		if (ra >= 2 * PI) { ra -= 2 * PI; }
@@ -162,24 +162,24 @@ void drawRays2D(t_structure_main *w) {
 		float disH = 1000000, hx = w->s_player.px, hy = w->s_player.py;
 		float aTan = -1 / tan(ra);
 		if (ra > PI) { ry = (((int)w->s_player.py >> 6) << 6) - 0.0001;	rx = (w->s_player.py - ry) * aTan + w->s_player.px;	yo = -64;	xo = -yo * aTan;}
-		if (ra < PI) { ry = (((int)w->s_player.py >> 6) << 6) + 64;		rx = (w->s_player.py - ry) * aTan + w->s_player.px;	yo = 64;	xo = -yo * aTan;}
+		if (ra < PI) { ry = (((int)w->s_player.py >> 6) << 6) + 	64;	rx = (w->s_player.py - ry) * aTan + w->s_player.px;	yo = 64;	xo = -yo * aTan;}
 		if (ra == 0 || ra == PI) { rx = w->s_player.px;	ry = w->s_player.py;	dof = 8;}
 		while (dof < 8)
 		{
 			mx = (int)(rx) >> 6;	my = (int)(ry) >> 6;	mp = my * w->s_map.mapX + mx;
-			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {		dof = 8;	hx =rx;	hy=ry;	disH = dist(w->s_player.px,w->s_player.py,rx, ry);	}
+			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == '1') {		dof = 8;	hx =rx;	hy=ry;	disH = dist(w->s_player.px,w->s_player.py,rx, ry);	}
 			else {	rx += xo;	ry += yo;	dof += 1;	}}
 
 		dof = 0;
 		float disV = 1000000, vx = w->s_player.px, vy = w->s_player.py;
 		float nTan = -tan(ra);
 		if (ra > P2 && ra < P3) { rx = (((int)w->s_player.px >> 6) << 6) - 0.0001;	ry = (w->s_player.px - rx) * nTan + w->s_player.py; xo = -64; yo = -xo * nTan;}
-		if (ra < P2 || ra > P3) { rx = (((int)w->s_player.px >> 6) << 6) + 64;		ry = (w->s_player.px - rx) * nTan + w->s_player.py; xo = 64; 	yo = -xo * nTan;}
+		if (ra < P2 || ra > P3) { rx = (((int)w->s_player.px >> 6) << 6) + 		64;	ry = (w->s_player.px - rx) * nTan + w->s_player.py; xo = 64; 	yo = -xo * nTan;}
 		if (ra == 0 || ra == PI) { rx = w->s_player.px;	ry = w->s_player.py;	dof = 8;}
 		while (dof < 8)
 		{
 			mx = (int)(rx) >> 6;	my = (int)(ry) >> 6;	mp = my * w->s_map.mapX + mx;
-			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == 1) {	dof = 8;	vx =rx;	vy=ry;	disV = dist(w->s_player.px,w->s_player.py,rx, ry);}
+			if (mp > 0 && mp < w->s_map.mapX * w->s_map.mapY && map[mp] == '1') {	dof = 8;	vx =rx;	vy=ry;	disV = dist(w->s_player.px,w->s_player.py,rx, ry);}
 			else {	rx += xo;	ry += yo;	dof += 1;}
 		}
 		if (disH > disV)	{rx = vx;	ry = vy;	disT = disV;	color = 0x00FF00;}
@@ -212,13 +212,15 @@ void	draw_map(t_structure_main *w)
 	int color;
 
 	y = 0;
-	while ( y < 8)
+	while ( y < w->s_map.mapY)
 	{
 		x = 0;
-		while ( x < 8)
+		while ( x < w->s_map.mapX)
 		{
-			if (map[y*8+x] == 1)
+			if (map[y*8+x] == '1')
 				color = 0xFFFFFF;
+			else if (map[y*8+x] == ' ')
+				color = 0x000000;
 			else
 				color = 0x666666;
 			xo = x + w->s_map.mapS;
@@ -260,6 +262,16 @@ void test(t_structure_main *w)
 		yui = 0;
 		jkl++;
 		test2(w);
+		//mlx_mouse_move(w->s_win.mlx, w->s_win.win, w->s_win.height/2, w->s_win.width/2);
+		mlx_mouse_get_pos(w->s_win.mlx, w->s_win.win, &x, &y);
+		if ((x > 0 && x < w->s_win.height) && (y > 0 && y < w->s_win.width))
+			if (x != w->s_win.height/2)
+			{
+				if (x < w->s_win.height/2)
+					deal_key(65361,w);
+				else
+					deal_key(65363,w);
+			}
 	}
 	if (jkl == 10)
 		jkl = 0;
