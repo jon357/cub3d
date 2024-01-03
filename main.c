@@ -24,21 +24,20 @@ void	put_pixel_img(t_structure_main *w,int x, int y, int color)
 	}
 }
 
-void	draw_square_raw(t_structure_main *w,int x, int y, int size, int color)
+void draw_square_raw(t_structure_main *w, int x, int y, int xo, int yo, int color)
 {
 	int i;
 	int j;
+		
+	int size_x = abs(xo - x);
+	int size_y = abs(yo - y);
 
-	i = 0;
-	while (i < size)
+	for (i = 0; i < size_y; i++)
 	{
-		j = 0;
-		while (j < size)
+		for (j = 0; j < size_x; j++)
 		{
-			put_pixel_img(w, x + j, y + i, color);
-			j++;
+			put_pixel_img(w, (x) + j, (y) + i, color);
 		}
-		i++;
 	}
 }
 
@@ -149,10 +148,13 @@ void rescale_image(void *mlx, void *win, void *original_img, int original_width,
 #include <stdio.h>  // Assurez-vous d'inclure stdio.h pour printf
 
 void drawRays2D(t_structure_main *w) {
-	int r, mx, my, mp, dof;
+	int r, mx, my, mp, dof, color;
 	float hrx, hry, ra, xo, yo, aTan, nTan;
-	float vrx, vry, disT;
+	float vrx, vry, disT, rx, ry;
 	float	disH = 1000000, disV = 1000000;
+
+	draw_square_raw(w, 530, 0, 530+480, 160, 0xB2FFFF);
+	draw_square_raw(w, 530, 160, 530+480, 320, 0x280000);
 
 	ra = w->s_player.pa - DR * 30;
 	r = 0;
@@ -239,14 +241,20 @@ void drawRays2D(t_structure_main *w) {
 		if (disH > disV)
 		{
 			disT = disV;
-			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)vrx, (int)vry, 0x00FF00);
+			color = 0x00FF00;
+			rx = vrx;
+			ry = vry;
 		}
 		else
 		{
 			disT = disH;
-			draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)hrx, (int)hry, 0xFF0000);
+			color = 0xFF0000;
+			rx = hrx;
+			ry = hry;
 		}
 
+		draw_line(w, (int)w->s_player.px, (int)w->s_player.py, (int)rx, (int)ry, color);
+		
 		float ca = w->s_player.pa-ra;
 		if (ca<0)
 			ca+=2*PI;
@@ -257,7 +265,7 @@ void drawRays2D(t_structure_main *w) {
 		float lineO = 160-lineH/2;	
 		if (lineH>320)
 			lineH=320;
-		draw_line(w, r*8+530, lineO, r*8+530, lineH+lineO, 0x0000FF);
+		draw_square_raw(w, r*8+530, lineO, r*8+538, lineH+lineO, color/2);
 
 		r++;
 		ra += DR;
@@ -366,8 +374,8 @@ void test(t_structure_main *w)
 void	init_windows(t_structure_main *w)
 {
 	int temp;
-	w->s_win.height = 1000;
-	w->s_win.width = 1000;
+	w->s_win.height = 1400;
+	w->s_win.width = 800;
 	w->s_win.mlx = mlx_init();
 	w->s_win.win = mlx_new_window(w->s_win.mlx, w->s_win.height, w->s_win.width, "WF99");
 	w->s_player.px = 200;
