@@ -45,7 +45,7 @@ void	move(int key, t_structure_main *w)
 
 int	deal_key(int key, t_structure_main *w)
 {
-	printf("key pressed = %d\n", key);
+	//printf("key pressed = %d\n", key);
 	if (key == 65307)
 		kill_prog(w);
 	else if (key == 65361)

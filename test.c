@@ -1,24 +1,28 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "include/mlx.h"
 
-typedef struct s_1
+int	close(int key)
 {
-	char *str;
-}	t_1;
+	printf("_close_ %d\n", key);
+	return (0);
+}
 
-typedef struct s_2
+void test(int key)
 {
-	t_1	s1;
-}	t_2;
-
-void	test(t_2 *s2)
-{
-	s2->s1.str = "test";
-	printf("%s\n", s2->s1.str);
+	printf("_test_ %d\n", key);
+	;
 }
 
 int	main(void)
 {
-	t_2 s2;
+	void *mlx;
+	void *win;
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 400, 200, "WF99");
 
-	test(&s2);
+	mlx_hook(win,  2, 1L<<0, close, NULL);
+	mlx_key_hook(win, (void *)test, NULL);
+	mlx_loop(mlx);
+	return (0);
 }
