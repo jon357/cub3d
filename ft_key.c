@@ -17,6 +17,7 @@ int	*kill_prog(t_structure_main *w)
 	mlx_destroy_image(w->s_win.mlx, w->s_img.buffer);
 	mlx_destroy_image(w->s_win.mlx, w->s_img.img_player);
 	mlx_destroy_image(w->s_win.mlx, w->s_img.img_wall);
+	mlx_destroy_image(w->s_win.mlx, w->s_img.pedro_wall);
 	int i = -1;
 	while (++i <= 10)
 		mlx_destroy_image(w->s_win.mlx, w->s_img.roomadslam[i]);
@@ -38,7 +39,7 @@ void	move(int key, t_structure_main *w)
 	int	ipy=w->s_player.py/64.0, ipy_add_yo=(w->s_player.py + yo)/64.0, ipy_sub_yo=(w->s_player.py - yo)/64.0;
 	if (key == 119 )
 	{
-		printf("%d %d \n",ipy*w->s_map.mapX + ipx_add_xo, ipy_add_yo*w->s_map.mapX + ipx);
+		//printf("%d %d \n",ipy*w->s_map.mapX + ipx_add_xo, ipy_add_yo*w->s_map.mapX + ipx);
 		if (map2[ipy*w->s_map.mapX + ipx_add_xo]=='0') {w->s_player.px += w->s_player.pdx;}
 		if (map2[ipy_add_yo*w->s_map.mapX + ipx]=='0') {w->s_player.py += w->s_player.pdy;}
 	}

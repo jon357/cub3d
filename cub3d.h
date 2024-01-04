@@ -19,6 +19,17 @@
 # define P3 3*PI/2
 # define DR 0.0174533
 
+typedef struct s_img
+{
+	int		height;
+	int		width;
+	void	*i;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}				t_img;
+
 typedef struct s_struture_map
 {
 	char	*map;
@@ -50,9 +61,13 @@ typedef struct s_struture_img
 	int		bpp;
 	int		endian;
 	int		line_len;
+	int		bpp_bis;
+	int		endian_bis;
+	int		line_len_bis;
 	void	*test[27];
 	void	*roomadslam[10];
 	void	*tgsway[20];
+	void	*pedro_wall;
 }	t_structure_img;
 
 typedef struct s_struture_windows

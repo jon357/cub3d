@@ -192,9 +192,39 @@ void drawRays2D(t_structure_main *w) {
 		if (ca>2*PI) ca-=2*PI;
 		disT=disT*cos(ca);
 		float lineH = (w->s_map.mapS*320)/disT;
-		float lineO = 160-lineH/2;	
 		if (lineH>320) lineH=320;
-		draw_square_raw(w, r*8+530, lineO, r*8+538, lineH+lineO, color/2);
+		float lineOff = 160-lineH/2;	
+		draw_square_raw(w, r*8+530, lineOff, r*8+538, lineH+lineOff, color/2);
+
+/*
+//
+		int	y = 0;
+		float ty = 0;
+		float ty_step = 32.0/(float)lineH;
+		//int largeur_image, hauteur_image;
+		//char *pedro_wall = mlx_get_data_addr(w->s_img.pedro_wall, &(w->s_img.bpp_bis), &(w->s_img.line_len_bis), &(w->s_img.endian_bis));
+		int cl;
+			char	*dst;
+		while (y < lineH)
+		{
+
+
+		//	dst = pedro_wall + (y * w->s_img.line_len_bis + 1 * (w->s_img.bpp_bis / 8));
+			//return (*(unsigned int *)dst);
+		//	printf("%d\n",(y * w->s_img.line_len_bis + 1 * (w->s_img.bpp_bis / 8)));
+		//	printf("%d\n", pedro_wall[(y * w->s_img.line_len_bis + 1 * (w->s_img.bpp_bis / 8))]);
+		//	printf("%ls\n", (unsigned int *)dst);
+		//	printf("%d\n", pedro_wall[y * 112 * 4 + 1 * 4 + 3]);
+			//int couleur_pixel = *(int *)(w->s_img.pedro_wall + (int)(ty * largeur_image + 32));
+			//float c = All_Textures[(int)(ty)*32];
+		//	put_pixel_img(w, (x) + j, (y) + i, color);
+			//draw_square_raw(w, r*8+530, lineOff, r*8+538, y+lineOff, cl);
+
+			y++;
+			ty+=ty_step;
+		}
+*/
+//
 
 		r++;
 		ra += DR;
@@ -217,9 +247,9 @@ void	draw_map(t_structure_main *w)
 		x = 0;
 		while ( x < w->s_map.mapX)
 		{
-			if (map[y*8+x] == '1')
+			if (map[y*w->s_map.mapX+x] == '1')
 				color = 0xFFFFFF;
-			else if (map[y*8+x] == ' ')
+			else if (map[y*w->s_map.mapX+x] == ' ')
 				color = 0x000000;
 			else
 				color = 0x666666;
@@ -232,7 +262,7 @@ void	draw_map(t_structure_main *w)
 	}
 }
 
-int jkl = 0;
+int jkl = -1;
 int yui = 0;
 
 void test2(t_structure_main *w)
@@ -274,7 +304,7 @@ void test(t_structure_main *w)
 			}
 	}
 	if (jkl == 10)
-		jkl = 0;
+		jkl = -1;
 
 
 /*
@@ -307,8 +337,8 @@ void test(t_structure_main *w)
 void	init_windows(t_structure_main *w)
 {
 	int temp;
-	w->s_win.height = 1400;
-	w->s_win.width = 800;
+	w->s_win.height = 1018;
+	w->s_win.width = 620;
 	w->s_win.mlx = mlx_init();
 	w->s_win.win = mlx_new_window(w->s_win.mlx, w->s_win.height, w->s_win.width, "WF99");
 	w->s_player.px = 200;
@@ -340,6 +370,11 @@ void	init_windows(t_structure_main *w)
 	w->s_img.roomadslam[8] = mlx_xpm_file_to_image(w->s_win.mlx, "sprite/roomadslam/frame_10_delay-0.05s.xpm", &temp,&temp);
 	w->s_img.roomadslam[9] = mlx_xpm_file_to_image(w->s_win.mlx, "sprite/roomadslam/frame_11_delay-0.05s.xpm", &temp,&temp);
 	w->s_img.roomadslam[10] = mlx_xpm_file_to_image(w->s_win.mlx, "sprite/roomadslam/frame_12_delay-0.05s.xpm", &temp,&temp);
+
+	w->s_img.pedro_wall = mlx_xpm_file_to_image(w->s_win.mlx, "sprite/pedrop/frame_061_delay-0.03s.xpm", &temp,&temp);
+	//if (!w->s_img.pedro_wall)
+	//	printf("nop\n");
+	
 }
 
 int	main(int argc, char **argv)
