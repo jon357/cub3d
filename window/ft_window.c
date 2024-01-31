@@ -91,8 +91,5 @@ void	init_windows(t_structure_main *w)
 		w->s_win.width, w->s_win.height);
 	printf("Texture Dimensions: Width = %d, Height = %d\n",
 		w->s_img.texture_width, w->s_img.texture_height);
-	gettimeofday(&(w->start_time), NULL);
-	w->end_time = w->start_time;
-	w->frame_count = 0;
 	calculate_map_scale(w);
 }
