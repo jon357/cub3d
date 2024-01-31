@@ -18,6 +18,7 @@ int	setup_and_load_map(int argc, char **argv,
 	if (argc != 2)
 	{
 		printf("Usage: %s <map_file>\n", argv[0]);
+		exit_error(w);
 		return (0);
 	}
 	if (!load_cub_file(argv[1], textures, &w->s_map))
