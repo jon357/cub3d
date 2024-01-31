@@ -21,21 +21,6 @@ void	initialize_variables(int *i, int *line_number,
 	*found_player = false;
 }
 
-bool	check_for_player(char current_char, bool *found_player)
-{
-	if (current_char == 'N' || current_char == 'S'
-		|| current_char == 'E' || current_char == 'W')
-	{
-		if (*found_player)
-		{
-			printf("Multiple player start positions found. Invalid map.\n");
-			return (false);
-		}
-		*found_player = true;
-	}
-	return (true);
-}
-
 void	update_player_info(t_structure_map *map_info,
 	int line_number, int column_number, char player_direction)
 {

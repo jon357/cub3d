@@ -479,7 +479,6 @@ void	init_texture_params(t_texture_params *textureparams,
 			t_ray_params *rayParams);
 void	initialize_variables(int *i, int *line_number,
 			int *column_number, bool *found_player);
-bool	check_for_player(char current_char, bool *found_player);
 void	update_player_info(t_structure_map *map_info,
 			int line_number, int column_number, char player_direction);
 void	update_position(char current_char,

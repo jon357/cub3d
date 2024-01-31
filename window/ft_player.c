@@ -41,14 +41,14 @@ void	init_mlx_and_window(t_structure_main *w)
 	w->s_win.mlx = mlx_init();
 	if (w->s_win.mlx == NULL)
 	{
-		printf("Erreur : Échec de mlx_init.\n");
+		fprintf(stderr, "Erreur : Échec de mlx_init.\n");
 		exit(1);
 	}
 	w->s_win.win = mlx_new_window(w->s_win.mlx, w->s_win.width,
 			w->s_win.height, "WF99");
 	if (w->s_win.win == NULL)
 	{
-		printf("Erreur : Échec de mlx_new_window.\n");
+		fprintf(stderr, "Erreur : Échec de mlx_new_window.\n");
 		exit(1);
 	}
 }

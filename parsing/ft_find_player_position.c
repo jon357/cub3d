@@ -49,7 +49,10 @@ bool	find_player(const char *map_content, int length, t_structure_map *map)
 	while (i < length)
 	{
 		if (!process_player_char(map_content[i], &player_info))
+		{
+			free(map->map);
 			return (false);
+		}
 		calculate_map(map);
 		update_position(map_content[i],
 			&player_info.line_number, &player_info.column_number);

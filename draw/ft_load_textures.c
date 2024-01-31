@@ -23,7 +23,7 @@ void	load_texture(t_structure_main *w, char *file_path, void **texture_ptr)
 			file_path, &width, &height);
 	if (!(*texture_ptr))
 	{
-		printf("Failed to load texture: %s\n", file_path);
+		fprintf(stderr, "Failed to load texture: %s\n", file_path);
 		exit_error(w);
 	}
 	w->s_img.texture_width = width;

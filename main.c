@@ -15,12 +15,9 @@
 int	setup_and_load_map(int argc, char **argv,
 		t_structure_main *w, t_texture *textures)
 {
-	w->error = 0;
 	if (argc != 2)
 	{
 		printf("Usage: %s <map_file>\n", argv[0]);
-		w->error = 1;
-		exit_error(w);
 		return (0);
 	}
 	if (!load_cub_file(argv[1], textures, &w->s_map))
@@ -56,6 +53,7 @@ void	init_structure_main(t_structure_main *w)
 	ft_memset(&(w->sprite), 0, sizeof(t_sprite));
 	w->s_img.texture_width = 1280;
 	w->s_img.texture_height = 720;
+	w->error = 0;
 }
 
 int	main(int argc, char **argv)

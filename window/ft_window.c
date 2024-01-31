@@ -38,6 +38,11 @@ void	load_roomadslam_textures(t_structure_main *w, int *temp)
 			"sprite/roomadslam/frame_12_delay-0.05s.xpm", temp, temp);
 }
 
+void	load_textures(t_structure_main *w, int *temp)
+{
+	load_roomadslam_textures(w, temp);
+}
+
 void	init_buffer(t_structure_main *w)
 {
 	int		bpp;
@@ -79,12 +84,15 @@ void	init_windows(t_structure_main *w)
 
 	init_player(w);
 	init_mlx_and_window(w);
-	load_roomadslam_textures(w, &temp);
+	load_textures(w, &temp);
 	init_buffer(w);
 	load_wall_textures(w);
 	printf("Window Dimensions: Width = %d, Height = %d\n",
 		w->s_win.width, w->s_win.height);
 	printf("Texture Dimensions: Width = %d, Height = %d\n",
 		w->s_img.texture_width, w->s_img.texture_height);
+	gettimeofday(&(w->start_time), NULL);
+	w->end_time = w->start_time;
+	w->frame_count = 0;
 	calculate_map_scale(w);
 }

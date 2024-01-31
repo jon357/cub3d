@@ -16,7 +16,8 @@ void	initialize_res_params(t_rescale_params *params, t_structure_main *w)
 {
 	if (!params || !w)
 	{
-		printf("Erreur: paramètres invalides pour initialize_res_params.\n");
+		fprintf(stderr,
+			"Erreur: paramètres invalides pour initialize_res_params.\n");
 		return ;
 	}
 	params->res = malloc(sizeof(t_res_params));
@@ -56,7 +57,7 @@ int	validate_parameters(t_rescale_params *params, t_structure_main *w)
 {
 	if (!params || !w)
 	{
-		printf("Erreur: paramètres invalides.\n");
+		fprintf(stderr, "Erreur: paramètres invalides.\n");
 		return (0);
 	}
 	return (1);

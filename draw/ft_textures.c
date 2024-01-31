@@ -106,7 +106,7 @@ int	get_texture_color(t_structure_main *w, t_WallDirection wallDir,
 	selected_texture = get_selected_texture(w, wallDir);
 	if (selected_texture == NULL)
 	{
-		printf("No texture selected for color retrieval\n");
+		fprintf(stderr, "No texture selected for color retrieval\n");
 		return (0);
 	}
 	texture_data = get_texture_data(selected_texture);
