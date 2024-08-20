@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_text_and_col_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 20:07:44 by fgras-ca          #+#    #+#             */
-/*   Updated: 2024/01/29 20:17:23 by fgras-ca         ###   ########.fr       */
+/*   Created: 2024/01/29 20:07:44 by jcheca            #+#    #+#             */
+/*   Updated: 2024/01/29 20:17:23 by jcheca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	sub_path_textures(char *direction, t_texture *textures, char *path)
+{
+	if (ft_strcmp(direction, "NO") == 0)
+		textures->north = ft_strdup(path);
+	else if (ft_strcmp(direction, "SO") == 0)
+		textures->south = ft_strdup(path);
+	else if (ft_strcmp(direction, "WE") == 0)
+		textures->west = ft_strdup(path);
+	else if (ft_strcmp(direction, "EA") == 0)
+		textures->east = ft_strdup(path);
+}
 
 bool	parse_texture_line(const char *line, t_texture *textures)
 {
@@ -22,21 +34,17 @@ bool	parse_texture_line(const char *line, t_texture *textures)
 	i = 0;
 	j = 0;
 	while (line[i] != ' ' && line[i] != '\0' && i < 2)
-		direction[i++] = line[i];
+	{
+		direction[i] = line[i];
+		i++;
+	}
 	direction[i] = '\0';
 	while (line[i] == ' ' && line[i] != '\0')
 		i++;
 	while (line[i] != ' ' && line[i] != '\0' && j < MAX_LINE_LENGTH - 1)
 		path[j++] = line[i++];
 	path[j] = '\0';
-	if (ft_strcmp(direction, "NO") == 0)
-		textures->north = ft_strdup(path);
-	else if (ft_strcmp(direction, "SO") == 0)
-		textures->south = ft_strdup(path);
-	else if (ft_strcmp(direction, "WE") == 0)
-		textures->west = ft_strdup(path);
-	else if (ft_strcmp(direction, "EA") == 0)
-		textures->east = ft_strdup(path);
+	sub_path_textures(direction, textures, path);
 	return (true);
 }
 

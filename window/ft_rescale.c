@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rescale.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/14 21:29:08 by fgras-ca          #+#    #+#             */
-/*   Updated: 2024/01/14 23:10:00 by fgras-ca         ###   ########.fr       */
+/*   Created: 2024/01/14 21:29:08 by jcheca            #+#    #+#             */
+/*   Updated: 2024/01/14 23:10:00 by jcheca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	initialize_res_params(t_rescale_params *params, t_structure_main *w)
 {
 	if (!params || !w)
 	{
-		fprintf(stderr,
-			"Erreur: paramètres invalides pour initialize_res_params.\n");
+		printf("Erreur: paramètres invalides pour initialize_res_params.\n");
 		return ;
 	}
 	params->res = malloc(sizeof(t_res_params));
@@ -57,7 +56,7 @@ int	validate_parameters(t_rescale_params *params, t_structure_main *w)
 {
 	if (!params || !w)
 	{
-		fprintf(stderr, "Erreur: paramètres invalides.\n");
+		printf("Erreur: paramètres invalides.\n");
 		return (0);
 	}
 	return (1);

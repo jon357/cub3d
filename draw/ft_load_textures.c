@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_load_textures.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/14 20:30:59 by fgras-ca          #+#    #+#             */
-/*   Updated: 2024/01/30 16:07:36 by fgras-ca         ###   ########.fr       */
+/*   Created: 2024/01/14 20:30:59 by jcheca            #+#    #+#             */
+/*   Updated: 2024/01/30 16:07:36 by jcheca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	load_texture(t_structure_main *w, char *file_path, void **texture_ptr)
 			file_path, &width, &height);
 	if (!(*texture_ptr))
 	{
-		fprintf(stderr, "Failed to load texture: %s\n", file_path);
+		printf("Failed to load texture: %s\n", file_path);
 		exit_error(w);
 	}
 	w->s_img.texture_width = width;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/14 16:56:52 by fgras-ca          #+#    #+#             */
-/*   Updated: 2024/01/30 16:44:11 by fgras-ca         ###   ########.fr       */
+/*   Created: 2024/01/14 16:56:52 by jcheca            #+#    #+#             */
+/*   Updated: 2024/01/30 16:44:11 by jcheca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ typedef struct s_struture_img
 	int		bpp_bis;
 	int		endian_bis;
 	int		line_len_bis;
-	void	*test[27];
-	void	*roomadslam[10];
+	void	*roomadslam[11];
 	void	*tgsway[20];
 	void	*north_texture;
 	void	*south_texture;

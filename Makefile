@@ -3,14 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+         #
+#    By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/14 16:54:48 by fgras-ca          #+#    #+#              #
-#    Updated: 2024/01/30 16:18:26 by fgras-ca         ###   ########.fr        #
+#    Created: 2024/01/14 16:54:48 by jcheca            #+#    #+#              #
+#    Updated: 2024/01/30 16:18:26 by jcheca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-LOGO = @echo "🅹🅾🅷🅽 🅰🅽🅳 🅻🅰🅳🅴🅱🅴🆉🅴"
 
 RST				= \033[0m
 GRAY			= \033[0;90m
@@ -74,13 +72,11 @@ $(NAME): $(OBJ)
 	@echo "$(RED)Compilation cub3D... $(RST)"
 	@$(FLAG) -Iinclude $(OBJ) -Llib -lmlx -lXext -lX11 -lm -o $(NAME)
 	@echo "$(GREEN)Compilation complete. $(ORANGE)Type "./cub3d" for execute the program!!$(RST)"
-	$(LOGO)
 
 clean:
 	@echo "$(RED)Deleating files objects... $(RST)"
 	$(RM) $(OBJ)
 	@echo "$(GREEN)files deleted!! $(RST)"
-	$(LOGO)
 
 fclean:	clean
 	@echo "$(RED)Delete program name... $(RST)"

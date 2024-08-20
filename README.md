@@ -1,0 +1,1 @@
+This project is inspired by the game Wolfenstein 3D, considered the first FPS ever developed. It allows you to explore the ray-casting technique. The goal is to create a dynamic view within a maze, where you must find your way.

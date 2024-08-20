@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_window.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgras-ca <fgras-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcheca <jcheca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/14 19:15:53 by fgras-ca          #+#    #+#             */
-/*   Updated: 2024/01/30 17:11:58 by fgras-ca         ###   ########.fr       */
+/*   Created: 2024/01/14 19:15:53 by jcheca            #+#    #+#             */
+/*   Updated: 2024/01/30 17:11:58 by jcheca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	init_buffer(t_structure_main *w)
 			w->s_win.height);
 	if (w->s_img.buffer == NULL)
 	{
-		fprintf(stderr, "Erreur : Échec de mlx_new_image pour le buffer.\n");
+		printf("Erreur : Échec de mlx_new_image pour le buffer.\n");
 		return ;
 	}
 	buffer_addr = mlx_get_data_addr(w->s_img.buffer, &bpp, &size_line, &endian);
 	if (buffer_addr == NULL)
-		fprintf(stderr, "Erreur : Impossible d'obtenir l'adresse du buffer.\n");
+		printf("Erreur : Impossible d'obtenir l'adresse du buffer.\n");
 	else
 		printf("Buffer créé avec Largeur: %d, Hauteur: %d\n",
 			w->s_win.width, w->s_win.height);
